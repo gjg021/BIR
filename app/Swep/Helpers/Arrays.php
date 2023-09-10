@@ -562,4 +562,16 @@ class Arrays
             'GRADUATE STUDIES' => 'GRADUATE STUDIES',
         ];
     }
+
+    public static function suppliesClassification(){
+        return [
+            'IT SUPPLIES' => 'IT SUPPLIES',
+            'OFFICE SUPPLIES' => 'OFFICE SUPPLIES',
+            'JANITORIAL SUPPLIES' => 'JANITORIAL SUPPLIES',
+            'PROTECTIVE SUPPLIES' => 'PROTECTIVE SUPPLIES',
+            'CONSTRUCTION SUPPLIES' => 'CONSTRUCTION SUPPLIES',
+            'SPECIAL REQUEST' => 'SPECIAL REQUEST',
+            'ELECTRICAL SUPPLIES' => 'ELECTRICAL SUPPLIES',
+        ];
+    }
 }

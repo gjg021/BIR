@@ -28,7 +28,7 @@
       <ul class="nav navbar-nav">
 
         @if($_SERVER['SERVER_ADDR'] != $server_address)
-          <li style="width: 750px;padding-top: 12px"><p style="color: white; font-size: larger">DEVELOPMENT MODE</p></li>
+
         @endif
           <li class="dropdown tasks-menu">
             <a href="http://{{$_SERVER['SERVER_NAME']}}/" >

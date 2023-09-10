@@ -316,53 +316,9 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
 
 
     Route::resource('mis_requests_status','MisRequestsStatusController');
-
-    /** Budget Proposal**/
-    Route::resource('budget_proposal', 'BudgetProposalController');
-
-    /** PPMP **/
-    Route::resource('ppmp', 'PPMPController');
-
-    /** PPDO **/
-    Route::resource('ppdo', 'PPU\PPDOController');
-
-
-    /** ORS **/
-    Route::get('ors/{slug}/print','Budget\ORSController@print')->name('ors.print');
-    Route::get('ors/reports','Budget\ORSController@reports')->name('ors.reports');
-    Route::get('ors/report_generate/{type}','Budget\ORSController@reportGenerate')->name('ors.report_generate');
-    Route::resource('ors','Budget\ORSController');
-
-    /** Projects **/
-    Route::resource('projects','Budget\ProjectsController');
-
-    /** Annual Budget **/
-    Route::resource('annual_budget','Budget\AnnualBudgetController');
-
-    /** Publication **/
-    Route::get('publication/{slug}/print', 'HRU\PublicationController@print')->name('publication.print');
-    Route::post('publication/{slug}/add_item','HRU\PublicationController@addItem')->name('publication.add_item');
-    Route::get('publication/{itemSlug}/edit_item','HRU\PublicationController@editItem')->name('publication.edit_item');
-    Route::patch('publication/{itemSlug}/update_item','HRU\PublicationController@updateItem')->name('publication.update_item');
-    Route::delete('publication/{itemSlug}/destroy_item','HRU\PublicationController@destroyItem')->name('publication.destroy_item');
-
-    Route::get('publication/{slug}/print_item', 'HRU\PublicationController@printItem')->name('publication.print_item');
-    Route::post('publication/{slug}/add_item','HRU\PublicationController@addItem')->name('publication.add_item');
-
-
-    Route::resource('publication',\App\Http\Controllers\HRU\PublicationController::class);
-
-    /** Publication Applicants **/
-
-    Route::get('publication_applicants/{slug}/assess', 'HRU\PublicationApplicantsController@assess')->name('publication_applicants.assess');
-    Route::post('publication_applicants/{slug}/assess', 'HRU\PublicationApplicantsController@assessPost')->name('publication_applicants.assess');
-    Route::delete('publication_applicants/{slug}/assess', 'HRU\PublicationApplicantsController@assessDisqualify')->name('publication_applicants.assess');
-    Route::patch('publication_applicants/{slug}/assess', 'HRU\PublicationApplicantsController@assessFinalize')->name('publication_applicants.assess');
-    Route::get('publication_applicants/{publication_detail_slug}', 'HRU\PublicationApplicantsController@index')->name('publication_applicants.index');
-//    Route::resource('publication_applicants/{publication_detail_slug}');
-
-    /** Payroll Template **/
-    Route::resource('payroll_template',\App\Http\Controllers\HRU\PayrollTemplateController::class);
+    Route::resource('office_supplies',\App\Http\Controllers\BIR\OfficeSuppliesController::class);
+    Route::resource('stock_entry',\App\Http\Controllers\BIR\StockEntryController::class);
+    Route::resource('ris',\App\Http\Controllers\BIR\RISController::class);
 });
 
 
@@ -428,25 +384,17 @@ Route::get('/dashboard/test', function(){
 
 });
 
-Route::get('dashboard/prayer', function (){
-    $path = asset('json/quotes.json');
-    $content = json_decode(file_get_contents($path),true);
+Route::get('/os',function (){
+    $os = \App\Models\BIR\OfficeSupplies::query()
+        ->where('article','=',null)
+        ->get();
 
-    $today = Carbon::now()->format('Y-m-d');
-    $qod_db = \App\Models\QuoteOfTheDay::query()->where('date',$today)->first();
-    if(empty($qod_db)){
-        $random = rand(0,1643);
-        $qod = new \App\Models\QuoteOfTheDay();
-        $qod->quote = $random;
-        $qod->date = $today;
-        $qod->save();
 
+    foreach ($os as $o){
+        $o->delete();
     }
-    $qod_db_2 = \App\Models\QuoteOfTheDay::query()->where('date',$today)->first();
-    return view('dashboard.prayer.index')->with([
-        'qod' => $content[$qod_db_2->quote],
-    ]);
-})->name('dashboard.prayer');
+
+});
 
 Route::get('dashboard/zk_test',function (){
 

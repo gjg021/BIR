@@ -510,3 +510,9 @@ function makeId(length) {
     }
     return result;
 }
+
+function sanitizeAutonum(number){
+    number =  number.replaceAll(',','');
+    number = number.replaceAll('₱','');
+    return parseFloat(number);
+}
