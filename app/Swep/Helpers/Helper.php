@@ -233,23 +233,13 @@ class Helper
     }
 
     public static function getUserName(){
-        $firstname = '';
-        $middlename = '';
-        $lastname = '';
-        $position = '';
-        if(Auth::user()->firstname == '' || Auth::user()->lastname == ''){
-            if(Auth::user()->employee()->exists()){
-                $firstname = Auth::user()->employee->firstname;
-                $lastname = Auth::user()->employee->lastname;
-                $middlename = Auth::user()->employee->middlename;
-                $position = Auth::user()->employee->position;
-            }
-        }else{
-            $firstname = Auth::user()->firstname;
-            $middlename = Auth::user()->middlename;
-            $lastname = Auth::user()->lastname;
-            $position = Auth::user()->position;
-        }
+        $employee = Auth::user()->employee;
+        $auth = Auth::user();
+        $firstname = $employee->firstname ?? $auth->firstname;
+        $middlename = $employee->middlename ?? $auth->middlename;
+        $lastname = $employee->lastname ?? $auth->lastname;
+        $position = $employee->position ?? $auth->position;
+
 
         return [
             'firstname' => $firstname,
